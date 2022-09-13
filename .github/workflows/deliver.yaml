@@ -1,0 +1,38 @@
+name: CD
+on:
+  release:
+    types: [published]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: echo workspace
+        run: echo $GITHUB_WORKSPACE
+        shell: bash
+      - name: Run tests
+        run: coverage run test.py
+      - name: Generate coverage report
+        run: coverage report
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dockerhub Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/webpage:latest .
+      - name: Push image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/webpage:latest
