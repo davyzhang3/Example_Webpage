@@ -32,7 +32,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: list files
+        run: ls -l
       - name: Build image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/webpage:latest .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/webpage:latest -f Dockerfile .
       - name: Push image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/webpage:latest
