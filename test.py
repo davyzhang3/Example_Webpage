@@ -10,7 +10,8 @@ class FlaskAppTests(unittest.TestCase):
 
     def test_get_welcome_endpoint(self):
         r = self.app.get('/')
-        self.assertEqual(r.data, b'Welcome Weclouddata! v0.3')
+        self.assertEqual(r.data, b'Welcome Weclouddata! v0.4')
+
 
     def test_get_courses_endpoint(self):
         r = self.app.get('/courses')
