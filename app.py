@@ -6,6 +6,7 @@ app = Flask(__name__)
 def main():
     return "Welcome Weclouddata! v0.4"
 
+
 @app.route('/courses')
 def courses():
     return 'DevOps'
