@@ -43,20 +43,22 @@ pipeline {
                 DOCKER_CRED = credentials('Dawei-Dockerhub')
                 }
             steps{
-                echo 'Deploying'
-                if (env.BRANCH_NAME == 'develop'){
-                sh '''
-                    eval "$(ssh-agent -s)"
-                    echo "$SSHKEY" | ssh-add -
-                    ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest"
-                    '''
-                }
-                else if (env.BRANCH_NAME == 'main'){
-                sh '''
-                    eval "$(ssh-agent -s)"
-                    echo "$SSHKEY" | ssh-add -
-                    ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest"
-                    '''
+                script{
+                    echo 'Deploying'
+                    if (env.BRANCH_NAME == 'develop'){
+                    sh '''
+                        eval "$(ssh-agent -s)"
+                        echo "$SSHKEY" | ssh-add -
+                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest"
+                        '''
+                    }
+                    else if (env.BRANCH_NAME == 'main'){
+                    sh '''
+                        eval "$(ssh-agent -s)"
+                        echo "$SSHKEY" | ssh-add -
+                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest"
+                        '''
+                    }
                 }
             }
         }
