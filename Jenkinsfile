@@ -58,6 +58,8 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest"
                     '''
                 }
+            }
+        }
     }
 
 }
