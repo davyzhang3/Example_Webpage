@@ -48,14 +48,14 @@ pipeline {
                     sh '''
                         eval "$(ssh-agent -s)"
                         ssh-add ~/.ssh/id_rsa
-                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest -p 80:80"
+                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d  -p 80:80 $DOCKER_CRED_USR/webpage:latest"
                         '''
                     }
                     else if (env.BRANCH_NAME == 'main'){
                     sh '''
                         eval "$(ssh-agent -s)"
                         ssh-add ~/.ssh/id_rsa
-                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest -p 80:80 "
+                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d  -p 80:80 $DOCKER_CRED_USR/webpage:latest"
                         '''
                     }
                 }
