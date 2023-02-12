@@ -19,7 +19,7 @@ pipeline {
         stage('Build'){
 
             environment {
-                DOCKER_CRED = credentials('DaweisGtihub')
+                DOCKER_CRED = credentials('Dawei-Dockerhub')
                 }
             
             when{
