@@ -22,11 +22,6 @@ pipeline {
                 DOCKER_CRED = credentials('Dawei-Dockerhub')
                 }
             
-            when{
-				expression{
-					env.BRANCH_NAME == "develop"
-				}
-			}
             steps{
                 echo 'Building'
                 sh "docker build -t $DOCKER_CRED_USR/webpage:latest -f Dockerfile ."
