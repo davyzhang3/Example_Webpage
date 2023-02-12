@@ -37,7 +37,6 @@ pipeline {
         stage('Deploy'){
 
             environment {
-                SSHKEY = credentials('sshkey')
                 STAGING_INSTANCE_IP = credentials('STAGING_INSTANCE_IP')
                 PROD_INSTANCE_IP = credentials('PROD_INSTANCE_IP')
                 DOCKER_CRED = credentials('Dawei-Dockerhub')
@@ -49,14 +48,14 @@ pipeline {
                     sh '''
                         eval "$(ssh-agent -s)"
                         ssh-add ~/.ssh/id_rsa
-                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest"
+                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest -p 80:80"
                         '''
                     }
                     else if (env.BRANCH_NAME == 'main'){
                     sh '''
                         eval "$(ssh-agent -s)"
                         ssh-add ~/.ssh/id_rsa
-                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest"
+                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d $DOCKER_CRED_USR/webpage:latest -p 80:80 "
                         '''
                     }
                 }
