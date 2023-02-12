@@ -5,3 +5,6 @@ Flask_APP=app.py flask run
 coverage run --source= test.py
 
 coverage report  
+
+# run the container
+docker run -d -p 80:80 junglepolice/webpage
