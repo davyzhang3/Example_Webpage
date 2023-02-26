@@ -9,6 +9,7 @@ pipeline {
             }
         }
         stage('Test') {
+
             when {
                 expression {
                     return env.BRANCH_NAME == 'dev' || 'main';
@@ -34,6 +35,7 @@ pipeline {
                 sh "docker push $DOCKER_CRED_USR/webpage:latest"
             }
         }
+
         stage('Deploy'){
 
             environment {
