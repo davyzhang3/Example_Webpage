@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    return "Welcome Weclouddata! v0.4"
+    return "Welcome Weclouddata! v0.5"
 
 
 @app.route('/courses')
