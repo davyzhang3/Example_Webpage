@@ -5,12 +5,13 @@ pipeline {
         stage('preparing') {
             steps {
                 echo 'preparing..'
-                sh 'sudo pip install -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing....'
+                sh 'export PATH="/var/jenkins_home:%PATH"' 
                 sh 'coverage run test.py'
                 sh 'coverage report'
                 
