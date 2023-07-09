@@ -15,6 +15,7 @@ pipeline {
                 sh 'which pip'
                 sh 'echo $WORKSPACE'
                 sh 'echo $PYTHONPATH'
+                
             }
         }
         stage('Build'){
