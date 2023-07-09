@@ -8,14 +8,16 @@ pipeline {
                 sh 'pip install -r requirements.txt'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         echo 'Testing....'
-        //         sh 'coverage run test.py'
-        //         sh 'coverage report'
+        stage('Test') {
+            steps {
+                echo 'Testing....'
+                sh 'which python3'
+                sh 'which pip'
+                sh 'echo $WORKSPACE'
+                sh 'echo $PYTHONPATH'
                 
-        //     }
-        // }
+            }
+        }
         stage('Build'){
 
             environment {
