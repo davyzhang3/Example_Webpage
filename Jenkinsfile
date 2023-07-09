@@ -13,7 +13,6 @@ pipeline {
                 echo 'Testing....'
                 sh 'python3 -m coverage run test.py'
                 sh 'python3 -m coverage report'
-                
             }
         }
         stage('Build'){
