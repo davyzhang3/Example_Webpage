@@ -11,7 +11,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing....'
-                sh 'export PATH="/var/jenkins_home/.local:$PATH"' 
+                sh 'export PATH="/var/jenkins_home/.local/lib/python3.9/site-packages:$PATH"' 
                 sh 'coverage run test.py'
                 sh 'coverage report'
                 
