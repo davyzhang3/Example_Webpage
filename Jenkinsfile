@@ -5,17 +5,15 @@ pipeline {
         stage('preparing') {
             steps {
                 echo 'preparing..'
-                sh 'pip install -r requirements.txt'
+                sh 'sudo pip install -r requirements.txt'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing....'
-                sh 'which python3'
-                sh 'which pip'
-                sh 'echo $WORKSPACE'
-                sh 'echo $PYTHONPATH'
-            
+                sh 'coverage run test.py'
+                sh 'coverage report'
+                
             }
         }
         stage('Build'){
