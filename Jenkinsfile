@@ -5,20 +5,19 @@ pipeline {
         stage('preparing') {
             steps {
                 echo 'preparing..'
-                sh 'pip install -r requirements.txt'
+                sh 'python3 - m pip install -r requirements.txt'
             }
         }
         stage('Test') {
-
             when {
                 expression {
-                    return env.BRANCH_NAME == 'dev' || 'main';
+                    return env.BRANCH_NAME == 'develop' || 'main';
                 }
             }
             steps {
                 echo 'In ' + env.BRANCH_NAME + ' branch, testing..'
-                sh 'coverage run test.py'
-                sh 'coverage report'
+                sh 'python3 - m coverage run test.py'
+                sh 'python3 - m coverage report'
                 
             }
         }
@@ -35,7 +34,6 @@ pipeline {
                 sh "docker push $DOCKER_CRED_USR/webpage:latest"
             }
         }
-
         stage('Deploy'){
 
             environment {
