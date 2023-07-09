@@ -5,15 +5,14 @@ pipeline {
         stage('preparing') {
             steps {
                 echo 'preparing..'
-                sh 'pip install -r requirements.txt'
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing....'
-                sh 'export PATH="/var/jenkins_home/.local/lib/python3.9/site-packages:$PATH"' 
-                sh 'coverage run test.py'
-                sh 'coverage report'
+                sh 'python3 -m coverage run test.py'
+                sh 'python3 -m coverage report'
                 
             }
         }
