@@ -11,6 +11,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing....'
+                sh `export PYTHONPATH=$WORKSPACE:$PYTHONPATH`
                 sh 'coverage run test.py'
                 sh 'coverage report'
                 
