@@ -9,14 +9,8 @@ pipeline {
             }
         }
         stage('Test') {
-
-            when {
-                expression {
-                    return env.BRANCH_NAME == 'dev' || 'main';
-                }
-            }
             steps {
-                echo 'In ' + env.BRANCH_NAME + ' branch, testing..'
+                echo 'Testing....'
                 sh 'coverage run test.py'
                 sh 'coverage report'
                 
@@ -33,34 +27,6 @@ pipeline {
                 sh "docker login --username $DOCKER_CRED_USR --password $DOCKER_CRED_PSW"
                 sh "docker build -t $DOCKER_CRED_USR/webpage:latest -f Dockerfile ."
                 sh "docker push $DOCKER_CRED_USR/webpage:latest"
-            }
-        }
-
-        stage('Deploy'){
-
-            environment {
-                STAGING_INSTANCE_IP = credentials('STAGING_INSTANCE_IP')
-                PROD_INSTANCE_IP = credentials('PROD_INSTANCE_IP')
-                DOCKER_CRED = credentials('Dawei-Dockerhub')
-                }
-            steps{
-                script{
-                    echo 'Deploying'
-                    if (env.BRANCH_NAME == 'develop'){
-                    sh '''
-                        eval "$(ssh-agent -s)"
-                        ssh-add ~/.ssh/id_rsa
-                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d  -p 80:80 $DOCKER_CRED_USR/webpage:latest"
-                        '''
-                    }
-                    else if (env.BRANCH_NAME == 'main'){
-                    sh '''
-                        eval "$(ssh-agent -s)"
-                        ssh-add ~/.ssh/id_rsa
-                        ssh -o StrictHostKeyChecking=no ec2-user@$STAGING_INSTANCE_IP "docker pull $DOCKER_CRED_USR/webpage:latest && docker stop my-container && docker rm my-container && docker run --name my-container -d  -p 80:80 $DOCKER_CRED_USR/webpage:latest"
-                        '''
-                    }
-                }
             }
         }
     }
