@@ -10,7 +10,7 @@ pipeline {
         stage('preparing') {
             steps {
                 echo 'Preparing..'
-                sh "echo user is $USER"
+                sh "whoami"
                 script {
                     // Create and activate a virtual environment
                     sh "python3 -m venv ${VIRTUALENV}"
