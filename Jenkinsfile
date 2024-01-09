@@ -27,8 +27,11 @@ pipeline {
                 echo 'Testing....'
                 script {
                     // Run your test command
-                    sh "python3 -m coverage run test.py"
-                    sh "python3 -m coverage report"
+                    sh '''
+                        . ${VIRTUALENV}/bin/activate
+                        python3 -m coverage run test.py
+                        python3 -m coverage report
+                    '''
                 }
             }
         }
@@ -37,10 +40,13 @@ pipeline {
             steps {
                 echo 'Building'
                 // Log in to Docker
-                sh "docker login --username ${DOCKER_CRED_USR} --password ${DOCKER_CRED_PSW}"
                 // Build and push Docker image
-                sh "docker build -t ${DOCKER_CRED_USR}/webpage:latest -f Dockerfile ."
-                sh "docker push ${DOCKER_CRED_USR}/webpage:latest"
+                sh '''
+                    . ${VIRTUALENV}/bin/activate
+                    docker login --username ${DOCKER_CRED_USR} --password ${DOCKER_CRED_PSW}
+                    docker build -t ${DOCKER_CRED_USR}/webpage:latest -f Dockerfile .
+                    docker push ${DOCKER_CRED_USR}/webpage:latest
+                '''
             }
         }
     }
