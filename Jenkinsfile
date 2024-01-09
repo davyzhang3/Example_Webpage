@@ -10,12 +10,13 @@ pipeline {
         stage('preparing') {
             steps {
                 echo 'Preparing..'
+                sh "echo user is $USER"
                 script {
                     // Create and activate a virtual environment
                     sh "python3 -m venv ${VIRTUALENV}"
                     sh ". ${VIRTUALENV}/bin/activate"
                     // Install dependencies using pip inside the virtual environment
-                    sh "pipx install -r requirements.txt"
+                    sh "pip install -r requirements.txt"
                 }
             }
         }
