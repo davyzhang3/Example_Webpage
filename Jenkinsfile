@@ -13,10 +13,11 @@ pipeline {
                 sh "whoami"
                 script {
                     // Create and activate a virtual environment
-                    sh "python3 -m venv ${VIRTUALENV}"
-                    sh ". ${VIRTUALENV}/bin/activate"
-                    // Install dependencies using pip inside the virtual environment
-                    sh "pip install -r requirements.txt"
+                    sh '''
+                        python3 -m venv ${VIRTUALENV}
+                        . ${VIRTUALENV}/bin/activate
+                        pip install -r requirements.txt
+                    '''
                 }
             }
         }
