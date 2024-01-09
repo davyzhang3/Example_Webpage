@@ -15,7 +15,7 @@ pipeline {
                     sh "python3 -m venv ${VIRTUALENV}"
                     sh ". ${VIRTUALENV}/bin/activate"
                     // Install dependencies using pip inside the virtual environment
-                    sh "python3 -m pip install -r requirements.txt"
+                    sh "pip install -r requirements.txt"
                 }
             }
         }
