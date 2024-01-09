@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+    
+    environment {
+        VIRTUALENV = 'venv'
+    }
+    
     stages {
         stage('preparing') {
             steps {
